@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chúc mừng 20/10 — Chúc các bạn gái</title>
+  <style>
+    :root{
+      --bg:#FFF7FB;
+      --card:#ffffff;
+      --accent:#ff6fa3;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#FFF7FB 0%, #FFF0F5 100%);
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      width:100%; max-width:900px; background:var(--card); border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      padding:28px; display:grid; grid-template-columns: 1fr 360px; gap:20px; align-items:stretch;
+    }
+    h1{margin:0 0 6px 0; font-size:28px; color:#2b2540}
+    p.lead{margin:0 0 18px 0; color:var(--muted)}
+
+    .left{padding-right:6px}
+    .greetings{display:flex; flex-direction:column; gap:12px}
+    .msg{
+      background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,250,253,0.9));
+      border-radius:12px; padding:14px; box-shadow:0 6px 18px rgba(203,85,140,0.06);
+    }
+    .msg .title{font-weight:700; color:var(--accent)}
+    .msg .text{color:#3b3b3b; margin-top:6px}
+
+    .controls{display:flex; gap:8px; margin-top:12px}
+    button{border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600}
+    .btn-primary{background:linear-gradient(90deg,var(--accent), #ff8fc6); color:white}
+    .btn-ghost{background:transparent; border:1px solid rgba(0,0,0,0.06)}
+
+    .right{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px}
+    .card-preview{width:100%; max-width:320px; background:linear-gradient(180deg,#fff,#fff0f7); border-radius:14px; padding:18px; text-align:center; box-shadow:0 8px 30px rgba(209,88,138,0.08)}
+    .card-preview h2{margin:6px 0 0 0}
+    .card-preview p{margin:8px 0 0 0}
+
+    .name-input{width:100%; padding:10px; border-radius:10px; border:1px solid #eee}
+
+    /* Confetti simple */
+    .confetti{position:fixed; inset:0; pointer-events:none}
+    .confetti i{position:absolute; width:10px; height:16px; opacity:0.95; transform-origin:center; animation:fall 2500ms linear forwards}
+    @keyframes fall{0%{transform:translateY(-20vh) rotate(0) }100%{transform:translateY(120vh) rotate(540deg); opacity:0}}
+
+    /* responsive */
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr;}
+      .right{order:-1}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <div class="left">
+      <h1>Chúc mừng Ngày Phụ nữ Việt Nam — 20/10 🎉</h1>
+      <p class="lead">Gửi tới các bạn gái — những người tuyệt vời: chúc bạn luôn rạng rỡ, xinh đẹp và thành công. Chọn nhanh một lời chúc bên dưới hoặc tùy chỉnh tên để gửi riêng nhé.</p>
+
+      <div class="greetings" id="greetings">
+        <!-- messages inserted by JS -->
+      </div>
+
+      <div class="controls">
+        <input class="name-input" id="name" placeholder="Ghi tên người nhận (tùy chọn)" />
+        <button class="btn-primary" id="apply">Áp dụng</button>
+        <button class="btn-ghost" id="copy">Sao chép</button>
+      </div>
+
+      <div style="margin-top:12px;color:#6b6b6b;font-size:13px">Mẹo: nhấn <strong>Áp dụng</strong> để cập nhật lời chúc trên thẻ bên phải, nhấn <strong>Sao chép</strong> để lấy nội dung gửi nhanh.</div>
+    </div>
+
+    <div class="right">
+      <div class="card-preview" id="preview">
+        <div style="font-size:40px">🌸</div>
+        <h2 id="preview-title">Chúc mừng 20/10</h2>
+        <p id="preview-text">Chúc bạn một ngày tràn ngập niềm vui, luôn xinh đẹp và thành công trong mọi điều nhé!</p>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button class="btn-primary" id="share">Tải ảnh</button>
+        <button class="btn-ghost" id="random">Lấy lời ngẫu nhiên</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const MESSAGES = [
+      {title: "Ngập tràn yêu thương", text: "Chúc bạn một ngày 20/10 thật ngọt ngào, luôn tươi cười, giữ mãi nét duyên và đạt mọi điều mơ ước!"},
+      {title: "Luôn rạng rỡ", text: "Chúc bạn luôn khỏe mạnh, rạng rỡ, yêu đời và thành công trong mọi việc. 20/10 vui vẻ nhé!"},
+      {title: "Cảm ơn vì bạn", text: "Cảm ơn vì tất cả sự dịu dàng, nỗ lực và niềm tin bạn mang lại. Chúc bạn một ngày thật ấm áp!"},
+      {title: "Người truyền cảm hứng", text: "Chúc bạn – người luôn truyền cảm hứng — tiếp tục tỏa sáng và chinh phục mọi mục tiêu của mình."},
+      {title: "Gửi bạn thân yêu", text: "Chúc bạn ngày 20/10 ngập tràn nụ cười, quà bất ngờ và thật nhiều hạnh phúc."}
+    ];
+
+    const greetingsEl = document.getElementById('greetings');
+    const previewTitle = document.getElementById('preview-title');
+    const previewText = document.getElementById('preview-text');
+    const nameInput = document.getElementById('name');
+
+    function renderList(){
+      greetingsEl.innerHTML = '';
+      MESSAGES.forEach((m, i)=>{
+        const div = document.createElement('div'); div.className='msg';
+        div.innerHTML = `<div class="title">${m.title}</div><div class="text">${m.text}</div>`;
+        div.addEventListener('click', ()=>{ setPreview(i); });
+        greetingsEl.appendChild(div);
+      })
+    }
+
+    function setPreview(i){
+      const m = MESSAGES[i];
+      previewTitle.textContent = m.title;
+      previewText.textContent = applyName(m.text);
+      burstConfetti();
+    }
+
+    function applyName(text){
+      const name = nameInput.value.trim();
+      if(!name) return text;
+      // insert name politely at end of sentence
+      return text.replace(/\.$/, '') + `, ${name}.`;
+    }
+
+    document.getElementById('apply').addEventListener('click', ()=>{
+      // apply current first message to preview
+      setPreview(0);
+    });
+
+    document.getElementById('copy').addEventListener('click', async ()=>{
+      const payload = previewTitle.textContent + '\n' + previewText.textContent;
+      try{ await navigator.clipboard.writeText(payload); alert('Đã sao chép lời chúc vào bộ nhớ tạm.'); }catch(e){ prompt('Không thể truy cập clipboard tự động. Sao chép thủ công:', payload); }
+    });
+
+    document.getElementById('random').addEventListener('click', ()=>{
+      const i = Math.floor(Math.random()*MESSAGES.length);
+      setPreview(i);
+    });
+
+    // Basic "download as image" using HTML2Canvas-less approach: create SVG and download
+    document.getElementById('share').addEventListener('click', ()=>{
+      const title = previewTitle.textContent;
+      const text = previewText.textContent;
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'>\n  <defs>\n    <linearGradient id='g' x1='0' x2='1' y1='0' y2='1'>\n      <stop offset='0' stop-color='#fff7fb'/>\n      <stop offset='1' stop-color='#fff0f7'/>\n    </linearGradient>\n    <style>text{font-family:Inter, Arial, sans-serif; fill:#2b2540}</style>\n  </defs>\n  <rect width='100%' height='100%' fill='url(#g)'/>\n  <text x='50%' y='120' text-anchor='middle' font-size='36'>🌸 ${escapeXml(title)}</text>\n  <text x='50%' y='200' text-anchor='middle' font-size='20'>${escapeXml(text)}</text>\n</svg>`;
+      const blob = new Blob([svg], {type:'image/svg+xml'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'chuc_20-10.svg'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    function escapeXml(unsafe){ return unsafe.replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&apos;"}[c]; }); }
+
+    // confetti
+    function burstConfetti(){
+      const container = document.getElementById('confetti');
+      container.innerHTML = '';
+      const colors = ['#FF6FA3','#FFD166','#9AD3BC','#B39CD0','#FFB6C1'];
+      for(let i=0;i<30;i++){
+        const el = document.createElement('i');
+        el.style.left = Math.random()*100 + 'vw';
+        el.style.top = (Math.random()*10 - 10) + 'vh';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.transform = `rotate(${Math.random()*360}deg)`;
+        el.style.animationDelay = (Math.random()*300) + 'ms';
+        el.style.width = (6 + Math.random()*14)+'px';
+        el.style.height = (10 + Math.random()*22)+'px';
+        container.appendChild(el);
+      }
+      setTimeout(()=>{ container.innerHTML = '' }, 2600);
+    }
+
+    // init
+    renderList(); setPreview(0);
+  </script>
+</body>
+</html>
