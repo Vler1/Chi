@@ -1,0 +1,150 @@
+/* 🌑 Nền tổng thể */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 🎇 Canvas pháo hoa */
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at bottom, #000, #111);
+    z-index: 5;
+    transition: opacity 1.5s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+/* 🌸 Phần chữ + hoa sau pháo hoa */
+#celebration {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: black;
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#celebration.show-celebration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+/* 🌷 Dòng chữ chúc mừng to và sáng hơn */
+#celebrationText {
+    color: #ff66cc;
+    font-size: 5em; /* To gần nửa màn hình */
+    text-shadow: 0 0 40px #ff3399, 0 0 80px #ff66cc;
+    animation: glow 2s ease-in-out infinite alternate, slideDown 1.5s ease-out forwards;
+    margin-bottom: 30px;
+    opacity: 0;
+}
+
+/* 🌺 Ảnh bó hoa to, bo góc mềm */
+#celebrationFlower {
+    width: 45vw;       /* To hơn, chiếm nửa màn hình ngang */
+    max-width: 600px;  /* Giới hạn tối đa để không quá to */
+    height: auto;
+    border-radius: 50px; /* Bo tròn góc ảnh */
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.5); /* Hiệu ứng sáng quanh ảnh */
+    animation: fadeZoom 2s ease forwards, slideUp 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* ✨ Hiệu ứng chữ phát sáng */
+@keyframes glow {
+    from { text-shadow: 0 0 20px #ff66cc, 0 0 40px #ff33cc; }
+    to { text-shadow: 0 0 50px #ff3399, 0 0 100px #ff99ff; }
+}
+
+/* ✨ Hiệu ứng chữ trượt xuống */
+@keyframes slideDown {
+    from { transform: translateY(-80px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ✨ Hiệu ứng ảnh trượt lên */
+@keyframes slideUp {
+    from { transform: translateY(80px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ✨ Hiệu ứng ảnh phóng to nhẹ */
+@keyframes fadeZoom {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* 🌷 Giao diện nhập tên */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+    max-width: 500px;
+    width: 80%;
+    z-index: 30;
+}
+
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* 🌼 Phần chữ và nút trong form */
+h1 {
+    color: #ff1493;
+}
+
+input {
+    padding: 10px;
+    width: 70%;
+    border-radius: 8px;
+    border: 1px solid #ff69b4;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff69b4;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #ff1493;
+}
