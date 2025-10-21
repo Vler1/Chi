@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Toàn Màn Hình</title>
+  <title>Video nền cố định</title>
   <style>
     body, html {
       margin: 0;
@@ -19,27 +19,25 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1; /* cho video nằm sau nội dung */
+      z-index: -1;
+      pointer-events: none; /* Ngăn không cho click tạm dừng video */
     }
 
     .content {
       position: relative;
-      z-index: 1;
       color: white;
       text-align: center;
-      top: 40%;
-      font-size: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      font-family: sans-serif;
     }
   </style>
 </head>
 <body>
-  <video autoplay muted loop>
+  <video autoplay muted loop playsinline>
     <source src="m-t-m-01-laptrinh-it-python-congnghethongtin-traitim-nhinbentra-576p.mp4" type="video/mp4">
     Trình duyệt của bạn không hỗ trợ video.
   </video>
-
-  <div class="content">
-
-  </div>
 </body>
 </html>
