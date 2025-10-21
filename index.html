@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video nền cố định</title>
+  <title>Chúc mừng 8/3</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
+      font-family: "Poppins", sans-serif;
     }
 
     video {
@@ -20,24 +21,101 @@
       height: 100%;
       object-fit: cover;
       z-index: -1;
-      pointer-events: none; /* Ngăn không cho click tạm dừng video */
+      pointer-events: none;
     }
 
-    .content {
-      position: relative;
-      color: white;
-      text-align: center;
+    .login-container {
+      display: none;
+      position: fixed;
       top: 50%;
-      transform: translateY(-50%);
-      font-size: 2em;
-      font-family: sans-serif;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 60px;
+      border-radius: 25px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+      text-align: center;
+      width: 400px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .login-container h2 {
+      color: #fff;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    input {
+      width: 85%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 25px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff66b2;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff3399;
+    }
+
+    .message {
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
     }
   </style>
 </head>
 <body>
   <video autoplay muted loop playsinline>
     <source src="m-t-m-01-laptrinh-it-python-congnghethongtin-traitim-nhinbentra-576p.mp4" type="video/mp4">
-    Trình duyệt của bạn không hỗ trợ video.
   </video>
+
+  <div class="login-container" id="loginBox">
+    <h2>💐 Chúc mừng ngày 8/3 💐</h2>
+    <input type="text" id="nameInput" placeholder="Nhập tên của bạn...">
+    <br>
+    <button onclick="checkName()">Đăng nhập</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    // Hiện khung sau 7 giây
+    setTimeout(() => {
+      document.getElementById('loginBox').style.display = 'block';
+    }, 7000);
+
+    function checkName() {
+      const correctName = "Trần Khánh Chi"; // 🔹 Tên hợp lệ duy nhất
+      const inputName = document.getElementById("nameInput").value.trim();
+      const message = document.getElementById("message");
+
+      if (inputName.toLowerCase() === correctName.toLowerCase()) {
+        // Chuyển sang trang chúc mừng
+        window.location.href = "chucmung.html";
+      } else {
+        message.textContent = "❌ Tên không hợp lệ rồi!";
+      }
+    }
+  </script>
 </body>
 </html>
