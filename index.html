@@ -1,181 +1,45 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc mừng 8/3</title>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Toàn Màn Hình</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1; /* cho video nằm sau nội dung */
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-align: center;
+      top: 40%;
+      font-size: 2rem;
+    }
+  </style>
 </head>
 <body>
-    <!-- 🎆 Canvas pháo hoa -->
-    <canvas id="fireworks"></canvas>
+  <video autoplay muted loop>
+    <source src="m-t-m-01-laptrinh-it-python-congnghethongtin-traitim-nhinbentra-576p.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ video.
+  </video>
 
-    <!-- 🌸 Phần chữ + hoa (ẩn ban đầu) -->
-    <div id="celebration">
-        <h1 id="celebrationText">💖 Chúc mừng ngày Quốc tế Phụ Nữ 8/3 💐</h1>
-        <img id="celebrationFlower" src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/nen-tang-hoa-gi-ngay-8-3-2.jpg" alt="Flower">
-    </div>
+  <div class="content">
 
-    <!-- 🌷 Giao diện nhập tên -->
-    <div class="container hidden" id="mainContent">
-        <h1>🌸 Nhập tên của bạn để nhận lời chúc 8/3 🌸</h1>
-        <input type="text" id="nameInput" placeholder="Nhập tên của bạn...">
-        <button onclick="goToGreeting()">Nhận lời chúc</button>
-    </div>
-
-    <!-- 🔊 Âm thanh pháo hoa -->
-    <audio id="fireworkSound" src="https://cdn.pixabay.com/audio/2023/04/20/audio_1a6a7dc1f3.mp3" preload="auto"></audio>
-
-    <script>
-        // =========================
-        // 🎆 Phần hiệu ứng pháo hoa
-        // =========================
-        const canvas = document.getElementById('fireworks');
-        const ctx = canvas.getContext('2d');
-        const sound = document.getElementById('fireworkSound');
-        let fireworks = [];
-        let particles = [];
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        class Firework {
-            constructor(x, y, targetY, color) {
-                this.x = x;
-                this.y = y;
-                this.targetY = targetY;
-                this.color = color;
-                this.speed = 6;
-                this.exploded = false;
-            }
-            update() {
-                this.y -= this.speed;
-                if (this.y <= this.targetY && !this.exploded) {
-                    this.explode();
-                    this.exploded = true;
-                    sound.currentTime = 0;
-                    sound.play();
-                }
-            }
-            explode() {
-                for (let i = 0; i < 100; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 5 + 3;
-                    particles.push(new Particle(this.x, this.y, Math.cos(angle) * speed, Math.sin(angle) * speed, this.color));
-                }
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        class Particle {
-            constructor(x, y, vx, vy, color) {
-                this.x = x;
-                this.y = y;
-                this.vx = vx;
-                this.vy = vy;
-                this.alpha = 1;
-                this.color = color;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.05;
-                this.alpha -= 0.01;
-            }
-            draw() {
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            }
-        }
-
-        function randomColor() {
-            const colors = ['#ff66b2', '#ffcc00', '#66ffcc', '#66ccff', '#ff9966', '#ff6699', '#ff4444', '#33ff99'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        function animate() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            fireworks.forEach((f, i) => {
-                f.update();
-                f.draw();
-                if (f.exploded) fireworks.splice(i, 1);
-            });
-            particles.forEach((p, i) => {
-                p.update();
-                p.draw();
-                if (p.alpha <= 0) particles.splice(i, 1);
-            });
-            requestAnimationFrame(animate);
-        }
-
-        function launchFireworks() {
-            for (let i = 0; i < 6; i++) {
-                setTimeout(() => {
-                    const x = Math.random() * canvas.width;
-                    const y = canvas.height;
-                    const targetY = Math.random() * (canvas.height / 2);
-                    fireworks.push(new Firework(x, y, targetY, randomColor()));
-                }, i * 500);
-            }
-        }
-
-        animate();
-        let launchInterval = setInterval(launchFireworks, 800);
-
-        // Sau 10 giây pháo hoa -> hiện chữ + hoa trong 3 giây
-        setTimeout(() => {
-            clearInterval(launchInterval);
-            document.getElementById('fireworks').classList.add('fade-out');
-
-            setTimeout(() => {
-                document.getElementById('fireworks').style.display = 'none';
-                const celebration = document.getElementById('celebration');
-                celebration.classList.add('show-celebration');
-
-                // Sau 3 giây -> ẩn chữ + hoa -> hiện form nhập tên
-                setTimeout(() => {
-                    celebration.classList.remove('show-celebration');
-                    celebration.style.display = 'none';
-                    document.getElementById('mainContent').classList.remove('hidden');
-                    document.getElementById('mainContent').classList.add('fade-in');
-                }, 3000);
-            }, 1500);
-        }, 10000);
-
-        // =========================
-        // 🔐 Chỉ cho phép tên duy nhất
-        // =========================
-        function goToGreeting() {
-            const name = document.getElementById('nameInput').value.trim().toLowerCase();
-            const validName = "Trân Khánh Chi"; // ✅ Tên duy nhất được phép
-
-            if (name === "") {
-                alert("Vui lòng nhập tên trước khi tiếp tục!");
-                return;
-            }
-
-            if (name === validName) {
-                localStorage.setItem('name', "Trần Khánh Chi");
-                window.location.href = "chuc.html";
-            } else {
-                alert("Tên không hợp lệ! 💔 Chỉ người đặc biệt mới nhận được lời chúc này.");
-            }
-        }
-
-        // Cập nhật kích thước canvas khi thay đổi cửa sổ
-        window.onresize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-    </script>
+  </div>
 </body>
 </html>
